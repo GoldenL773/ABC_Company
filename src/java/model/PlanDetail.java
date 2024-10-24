@@ -3,11 +3,20 @@ package model;
 public class PlanDetail {
 
     private int pdid; 
-    private int phid; 
+    private ProductionPlanHeader header; 
     private int sid;  
     private Date date;
     private int quantity;
     private String note; 
+    private Product product;
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     public int getSid() {
         return sid;
@@ -25,16 +34,14 @@ public class PlanDetail {
         this.pdid = pdid;
     }
 
-    public int getPhid() {
-        return phid;
+    public ProductionPlanHeader getHeader() {
+        return header;
     }
 
-    public void setPhid(int phid) {
-        this.phid = phid;
+    public void setHeader(ProductionPlanHeader header) {
+        this.header = header;
     }
 
-    
-    
 
     public Date getDate() {
         return date;

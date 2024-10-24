@@ -1,4 +1,4 @@
-package controller;
+package controller.plan;
 
 import dal.ProductDBContext;
 import dal.ProductionPlanDBContext;
@@ -19,7 +19,7 @@ import model.Product;
 import model.ProductionPlan;
 import model.ProductionPlanHeader;
 
-public class ProductionPlanDetailsController extends HttpServlet {
+public class ProductionPlanCreateDetailsController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,7 +34,7 @@ public class ProductionPlanDetailsController extends HttpServlet {
         List<LocalDate> dates = getDateRange(plan.getStart(), plan.getEnd());
         req.setAttribute("dateRange", dates);
 
-        req.getRequestDispatcher("../view/productionplan/details.jsp").forward(req, resp);
+        req.getRequestDispatcher("../view/productionplan/createdetails.jsp").forward(req, resp);
     }
 
     public List<LocalDate> getDateRange(Date startDate, Date endDate) {
@@ -83,8 +83,10 @@ public class ProductionPlanDetailsController extends HttpServlet {
                     int quantity = rawQuantity != null && !rawQuantity.isEmpty() ? Integer.parseInt(rawQuantity) : 0;
 
                     if (quantity >0) {
+                        
+                        
                         PlanDetail detail = new PlanDetail();
-                        detail.setPhid(header.getId());
+                        detail.setHeader(header);
                         detail.setSid(shiftId);
                         detail.setDate(date);
                         detail.setQuantity(quantity);
@@ -98,7 +100,7 @@ public class ProductionPlanDetailsController extends HttpServlet {
         if (!details.isEmpty()) {
             ProductionPlanDetailDBContext detailDbContext = new ProductionPlanDetailDBContext();
             detailDbContext.insert(details);
-            response.sendRedirect("productionplan/list");
+            response.sendRedirect("../productionplan/list?plid="+planId);
         } else {
             response.getWriter().println("No valid shift quantities to save.");
         }

@@ -1,4 +1,4 @@
-package controller;
+package controller.plan;
 
 import dal.DepartmentDBContext;
 import dal.ProductDBContext;

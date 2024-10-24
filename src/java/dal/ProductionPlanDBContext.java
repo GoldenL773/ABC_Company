@@ -8,11 +8,72 @@ import java.util.logging.Logger;
 import model.ProductionPlan;
 import java.sql.*;
 import java.util.List;
+import model.Department;
 import model.PlanDetail;
 import model.Product;
 import model.ProductionPlanHeader;
 
 public class ProductionPlanDBContext extends DBContext<ProductionPlan> {
+
+    public List<ProductionPlan> getPlans(String name, String month, String year, String deptId) {
+        List<ProductionPlan> plans = new ArrayList<>();
+        StringBuilder sql = new StringBuilder(
+                "SELECT p.plid, p.plname, p.startdate, p.enddate, d.did, d.dname\n"
+                + "FROM Plans p\n"
+                + "JOIN Departments d ON p.did = d.did\n"
+                + "WHERE p.isDeleted = 0"
+        );
+
+        // Build query dynamically based on filter parameters
+        if (name != null && !name.isEmpty()) {
+            sql.append(" AND p.plname LIKE ?");
+        }
+        if (month != null && !month.isEmpty() && year != null && !year.isEmpty()) {
+            sql.append(" AND MONTH(p.startdate) = ? AND YEAR(p.startdate) = ?");
+        } else if (year != null && !year.isEmpty()) {
+            sql.append(" AND YEAR(p.startdate) = ?");
+        }
+        if (deptId != null && !deptId.isEmpty()) {
+            sql.append(" AND d.did = ?");
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
+            int index = 1;
+            if (name != null && !name.isEmpty()) {
+                ps.setString(index++, "%" + name + "%");
+            }
+            if (month != null && !month.isEmpty() && year != null && !year.isEmpty()) {
+                ps.setInt(index++, Integer.parseInt(month));
+                ps.setInt(index++, Integer.parseInt(year));
+            } else if (year != null && !year.isEmpty()) {
+                ps.setInt(index++, Integer.parseInt(year));
+            }
+            if (deptId != null && !deptId.isEmpty()) {
+                ps.setString(index++, deptId);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ProductionPlan plan = new ProductionPlan();
+                plan.setId(rs.getInt("plid"));
+                plan.setName(rs.getString("plname"));
+                plan.setStart(rs.getDate("startdate"));
+                plan.setEnd(rs.getDate("enddate"));
+
+                // Set the associated department
+                Department dept = new Department();
+                dept.setId(rs.getInt("did"));
+                dept.setName(rs.getString("dname"));
+                plan.setDept(dept);
+
+                plans.add(plan);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Consider proper logging here
+        }
+
+        return plans;
+    }
 
     @Override
     public void insert(ProductionPlan model) {
@@ -96,6 +157,16 @@ public class ProductionPlanDBContext extends DBContext<ProductionPlan> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public void hidePlan(int planId) {
+        String sql = "UPDATE Plans SET isDeleted = 1 WHERE plid = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, planId);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Consider proper logging here
+        }
+    }
+
     @Override
     public ArrayList<ProductionPlan> list() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -109,7 +180,7 @@ public class ProductionPlanDBContext extends DBContext<ProductionPlan> {
                 + "JOIN Products p ON ph.pid = p.pid "
                 + "WHERE ph.plid = ?";
 
-        try ( PreparedStatement ps = connection.prepareStatement(sql)) {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
 
             ps.setInt(1, planId); // Set the planId to the query
             ResultSet rs = ps.executeQuery();
@@ -117,7 +188,7 @@ public class ProductionPlanDBContext extends DBContext<ProductionPlan> {
             while (rs.next()) {
                 ProductionPlanHeader header = new ProductionPlanHeader();
                 header.setId(rs.getInt("phid")); // Set phid
-               // header.getPlan().setId(rs.getInt("plid")); // Set plid
+                // header.getPlan().setId(rs.getInt("plid")); // Set plid
                 header.setQuantity(rs.getInt("quantity")); // Set quantity
                 header.setEstimatedeffort(rs.getFloat("estimatedeffort")); // Set estimatedeffort
 

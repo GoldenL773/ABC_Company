@@ -12,23 +12,27 @@
             <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/model/PlanDetail.java</file>
         </group>
         <group name="PRJ301">
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/model/ProductionPlan.java</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/controller/ProductionPlanDetailsController.java</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/model/Product.java</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/dal/ShiftDBContext.java</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/controller/ProductionPlanCreateController.java</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/controller/authentication/BaseRequiredAuthenticationController.java</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/controller/authentication/LoginController.java</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/model/PlanDetail.java</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/web/view/productionplan/details.jsp</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/dal/ProductionPlanDetailDBContext.java</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/model/ProductionPlanHeader.java</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/dal/ProductionPlanDBContext.java</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/dal/ProductDBContext.java</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/dal/DepartmentDBContext.java</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/model/Department.java</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/src/java/dal/DBContext.java</file>
-            <file>file:/D:/WhyFPT/PRJ301/code/ABC_Com/web/view/productionplan/create.jsp</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/dal/ShiftDBContext.java</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/controller/plan/ProductionPlanCreateController.java</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/dal/DepartmentDBContext.java</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/controller/authentication/BaseRequiredAuthenticationController.java</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/dal/ProductionPlanDetailDBContext.java</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/dal/ProductionPlanDBContext.java</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/model/ProductionPlan.java</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/controller/plan/ProductionPlanDisplayController.java</file>
+            <file>file:/D:/GitHub/ABC_Company/web/view/productionplan/list.jsp</file>
+            <file>file:/D:/GitHub/ABC_Company/web/view/productionplan/details.jsp</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/controller/authentication/LoginController.java</file>
+            <file>file:/D:/GitHub/ABC_Company/web/view/productionplan/listDetails.jsp</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/model/ProductionPlanHeader.java</file>
+            <file>file:/D:/GitHub/ABC_Company/web/view/productionplan/create.jsp</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/model/PlanDetail.java</file>
+            <file>file:/D:/GitHub/ABC_Company/web/WEB-INF/web.xml</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/dal/ProductDBContext.java</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/model/Shift.java</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/controller/plan/ProductionPlanDetailsController.java</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/model/Department.java</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/controller/plan/ProductionPlanController.java</file>
         </group>
     </open-files>
 </project-private>
