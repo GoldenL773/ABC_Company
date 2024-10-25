@@ -11,6 +11,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
@@ -82,9 +83,8 @@ public class ProductionPlanCreateDetailsController extends HttpServlet {
                     String rawQuantity = request.getParameter(quantityParam);
                     int quantity = rawQuantity != null && !rawQuantity.isEmpty() ? Integer.parseInt(rawQuantity) : 0;
 
-                    if (quantity >0) {
-                        
-                        
+                    if (quantity > 0) {
+
                         PlanDetail detail = new PlanDetail();
                         detail.setHeader(header);
                         detail.setSid(shiftId);
@@ -100,7 +100,9 @@ public class ProductionPlanCreateDetailsController extends HttpServlet {
         if (!details.isEmpty()) {
             ProductionPlanDetailDBContext detailDbContext = new ProductionPlanDetailDBContext();
             detailDbContext.insert(details);
-            response.sendRedirect("../productionplan/list?plid="+planId);
+            HttpSession session = request.getSession();
+            session.setAttribute("message", "Plan has been created successfully.");
+            response.sendRedirect("../productionplan/list?plid=" + planId);
         } else {
             response.getWriter().println("No valid shift quantities to save.");
         }

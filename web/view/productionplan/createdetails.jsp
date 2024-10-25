@@ -5,6 +5,13 @@
     <head>
         <meta charset="UTF-8">
         <title>Plan Details</title>
+
+        <script>
+            // Function to confirm before submitting the form
+            function confirmCreation() {
+                return confirm("Are you sure you want to create this plan?");
+            };
+        </script>
     </head>
     <body>
         <h1>Plan Details</h1>
@@ -40,7 +47,7 @@
                     </tr>
                 </c:forEach>
             </table>
-            <input type="submit" value="Save Shift Quantities"/>
+            <input type="submit" value="Save Shift Quantities" onclick="confirmCreation()"/>
         </form>
     </body>
 </html>

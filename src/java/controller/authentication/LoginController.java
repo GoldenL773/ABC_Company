@@ -1,50 +1,46 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller.authentication;
 
-import entity.User;
+import controller.BaseRBACController;
+import model.auth.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-
+import dal.UserDBContext;
+import jakarta.servlet.http.HttpServlet;
 
 public class LoginController extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String param_user = req.getParameter("username");//user input
-        String param_pass = req.getParameter("password");
-        
-        String username = req.getServletContext().getInitParameter("username");  //correct username
-        String password = req.getServletContext().getInitParameter("password");
-        if(param_user.equals(username) && param_pass.equals(password))
-        {
-            resp.getWriter().println("login successful!");
-            User account = new User();
-            account.setUsername(username);
-            account.setPassword(password);
-            account.setDisplayname("mr A");
-            req.getSession().setAttribute("account", account);
-        }
-        else
-        {
-            resp.getWriter().println("login failed!");
-        }
-        
-        String url = this.getInitParameter("url");
-        resp.getWriter().println(url);
-        
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("login.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("login.html").forward(req, resp);
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String param_user = req.getParameter("username");
+        String param_pass = req.getParameter("password");
+
+        UserDBContext userDB = new UserDBContext();
+        User user = userDB.get(param_user, param_pass);
+
+        if (user != null) {
+            // Load the roles and features into the user object.
+            user.setRoles(userDB.getRoles(user.getUsername()));
+
+            // Set the user into the session.
+            req.getSession().setAttribute("account", user);
+
+            // Redirect to the dashboard (or any other authorized page).
+            resp.sendRedirect("dashboard");
+        } else {
+            req.setAttribute("errorMessage", "Invalid username or password!");
+            req.getRequestDispatcher("login.jsp").forward(req, resp);
+        }
+
     }
+    
+    
     
 }

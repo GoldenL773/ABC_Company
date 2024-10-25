@@ -21,11 +21,48 @@
             .filter-section {
                 margin-bottom: 20px;
             }
+            .message {
+                background-color: #d4edda;
+                color: #155724;
+                padding: 10px;
+                border: 1px solid #c3e6cb;
+                margin-bottom: 20px;
+                border-radius: 4px;
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 1000;
+                transition: opacity 0.5s ease-out;
+            }
+            .hidden {
+                opacity: 0;
+            }
         </style>
+        <script>
+
+            // Function to hide the success message after 3 seconds
+            window.onload = function() {
+                const messageDiv = document.getElementById('successMessage');
+                if (messageDiv) {
+                    setTimeout(function() {
+                        messageDiv.classList.add('hidden');
+                    }, 3000); // 3000 milliseconds = 3 seconds
+                }
+            };
+        </script>
     </head>
     <body>
         <h1>Production Plans</h1>
-        
+
+        <!-- Display success message if exists -->
+        <c:if test="${not empty sessionScope.message}">
+            <div class="message" id="successMessage">
+                ${sessionScope.message}
+            </div>
+            <!-- Remove the message from the session after displaying it -->
+            <c:remove var="message" scope="session"/>
+        </c:if>
+
         <!-- Create button redirects to create page -->
         <a href="create">
             <button>Create New Plan</button>
@@ -70,6 +107,7 @@
             </form>
         </div>
 
+
         <!-- Display the list of plans in a table -->
         <table>
             <thead>
@@ -92,7 +130,7 @@
                             <a href="list/details?plid=${plan.id}">View Details</a>
                             <form action="delete" method="POST" style="display:inline;">
                                 <input type="hidden" name="plid" value="${plan.id}"/>
-                                <button type="submit" onclick="return confirm('Are you sure you want to delete this plan?')">Delete</button>
+                                <button type="submit" onclick="return confirm('Are you sure you want to hide this plan?')">Delete</button>
                             </form>
                         </td>
                     </tr>
