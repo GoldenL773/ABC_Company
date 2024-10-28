@@ -1,5 +1,6 @@
 package controller.plan;
 
+import controller.authentication.BaseRBACController;
 import dal.DepartmentDBContext;
 import dal.ProductDBContext;
 import dal.ProductionPlanDBContext;
@@ -18,12 +19,12 @@ import java.util.List;
 import model.Department;
 import model.Product;
 import model.ProductionPlanHeader;
+import model.auth.User;
 
-public class ProductionPlanCreateController extends HttpServlet {
+public class ProductionPlanCreateController extends BaseRBACController {
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+    protected void doAuthorizedGet(HttpServletRequest request, HttpServletResponse response, User account) throws ServletException, IOException {
         DepartmentDBContext dbDept = new DepartmentDBContext();
         ProductDBContext dbProduct = new ProductDBContext();
         
@@ -35,8 +36,8 @@ public class ProductionPlanCreateController extends HttpServlet {
 
     
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+    protected void doAuthorizedPost(HttpServletRequest request, HttpServletResponse response, User account) 
+            throws ServletException, IOException {
         ProductionPlan plan = new ProductionPlan();
         plan.setName(request.getParameter("name"));
         plan.setStart(Date.valueOf(request.getParameter("from")));

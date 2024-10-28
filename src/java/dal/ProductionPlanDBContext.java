@@ -212,17 +212,20 @@ public class ProductionPlanDBContext extends DBContext<ProductionPlan> {
     public ProductionPlan get(int id) {
         ProductionPlan plan = null;
 
-        // Corrected SQL Query
+        // Updated SQL Query to include Department details
         String sql = "SELECT p.plid AS planId, \n"
                 + "       p.plname AS planName,\n"
-                + "	   startdate, enddate,\n"
+                + "       p.startdate, p.enddate,\n"
                 + "       h.phid AS headerId, \n"
                 + "       h.pid AS planIdInHeader, \n"
                 + "       pr.pid AS productId, \n"
-                + "       pr.pname AS productName\n"
+                + "       pr.pname AS productName, \n"
+                + "       d.did AS departmentId, \n"
+                + "       d.dname AS departmentName \n"
                 + "FROM Plans p\n"
                 + "JOIN PlanHeaders h ON p.plid = h.plid\n"
                 + "JOIN Products pr ON h.pid = pr.pid\n"
+                + "JOIN Departments d ON p.did = d.did\n"
                 + "WHERE p.plid = ?;";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
@@ -238,6 +241,12 @@ public class ProductionPlanDBContext extends DBContext<ProductionPlan> {
                 plan.setStart(rs.getDate("startdate"));
                 plan.setEnd(rs.getDate("enddate"));
                 plan.setHeaders(new ArrayList<>());  // Initialize the headers list
+
+                // Set the associated department details
+                Department department = new Department();
+                department.setId(rs.getInt("departmentId"));
+                department.setName(rs.getString("departmentName"));
+                plan.setDept(department);
 
                 // Iterate through the result set and build the plan headers
                 do {
@@ -266,7 +275,7 @@ public class ProductionPlanDBContext extends DBContext<ProductionPlan> {
             }
         }
 
-        return plan;  // Return the constructed plan
+        return plan;
     }
 
 }

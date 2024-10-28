@@ -1,6 +1,6 @@
 package controller.dashboard;
 
-import controller.BaseRBACController;
+import controller.authentication.BaseRBACController;
 import controller.authentication.BaseRequiredAuthenticationController;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -12,16 +12,6 @@ import java.io.IOException;
 
 public class DashboardController extends BaseRequiredAuthenticationController {
 
-//    @Override
-//    protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException {
-//        req.setAttribute("displayName", account.getDisplayname());
-//        req.getRequestDispatcher("dashboard.jsp").forward(req, resp);
-//    }
-//
-//    @Override
-//    protected void doAuthorizedPost(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException {
-//        // Handle any POST requests specific to the dashboard if necessary.
-//    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException {

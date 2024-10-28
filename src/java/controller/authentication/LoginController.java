@@ -1,14 +1,12 @@
 package controller.authentication;
 
-import controller.BaseRBACController;
-import model.auth.User;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import model.auth.User;
 import dal.UserDBContext;
-import jakarta.servlet.http.HttpServlet;
+import java.io.IOException;
 
 public class LoginController extends HttpServlet {
 
@@ -23,24 +21,21 @@ public class LoginController extends HttpServlet {
         String param_pass = req.getParameter("password");
 
         UserDBContext userDB = new UserDBContext();
-        User user = userDB.get(param_user, param_pass);
+        // Get user directly with plaintext password matching
+        User user = userDB.get(param_user, param_pass);  // This method now expects a plaintext password
 
         if (user != null) {
-            // Load the roles and features into the user object.
+            // Load the roles and features into the user object
             user.setRoles(userDB.getRoles(user.getUsername()));
 
-            // Set the user into the session.
+            // Set the user into the session
             req.getSession().setAttribute("account", user);
 
-            // Redirect to the dashboard (or any other authorized page).
+            // Redirect to the dashboard (or any other authorized page)
             resp.sendRedirect("dashboard");
         } else {
             req.setAttribute("errorMessage", "Invalid username or password!");
             req.getRequestDispatcher("login.jsp").forward(req, resp);
         }
-
     }
-    
-    
-    
 }

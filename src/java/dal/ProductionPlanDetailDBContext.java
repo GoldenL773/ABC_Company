@@ -7,6 +7,9 @@ import model.PlanDetail;
 import model.PlanDetail;
 import java.sql.*;
 import model.Product;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class ProductionPlanDetailDBContext extends DBContext<PlanDetail> {
 
@@ -42,9 +45,32 @@ public class ProductionPlanDetailDBContext extends DBContext<PlanDetail> {
     }
 
     @Override
-    public PlanDetail get(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+   public PlanDetail get(int pdid) {
+        PlanDetail planDetail = null;
+        String sql = "SELECT pd.pdid, pd.quantity, pd.date, pd.sid, ph.pid, p.pname "
+                   + "FROM PlanDetails pd "
+                   + "JOIN PlanHeaders ph ON pd.phid = ph.phid "
+                   + "JOIN Products p ON ph.pid = p.pid "
+                   + "WHERE pd.pdid = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, pdid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                planDetail = new PlanDetail();
+                planDetail.setPdid(rs.getInt("pdid"));
+                planDetail.setQuantity(rs.getInt("quantity"));
+                planDetail.setDate(rs.getDate("date"));
+                planDetail.setSid(rs.getInt("sid"));
 
+                Product product = new Product();
+                product.setId(rs.getInt("pid"));
+                product.setName(rs.getString("pname"));
+                planDetail.setProduct(product);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return planDetail;
     }
 
     public List<PlanDetail> getDetailsByPlanId(int planId) {

@@ -1,7 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
+
 package controller.authentication;
 
 import jakarta.servlet.ServletException;
@@ -28,7 +26,7 @@ public abstract class BaseRequiredAuthenticationController extends HttpServlet{
             doPost(req, resp, user);
         }
         else
-            resp.getWriter().println("access denied!");
+            resp.sendRedirect(req.getContextPath() + "/login");
     }
 
     @Override
@@ -39,7 +37,7 @@ public abstract class BaseRequiredAuthenticationController extends HttpServlet{
             doGet(req, resp, user);
         }
         else
-            resp.getWriter().println("access denied!");
+            resp.sendRedirect(req.getContextPath() + "/login");
     }
     protected abstract void doGet(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException;
     protected abstract void doPost(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException;

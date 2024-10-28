@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class User {
     private String username;
     private String password;
-    private String displayname;
+  
     ArrayList<Role> roles = new ArrayList<>();
 
     public ArrayList<Role> getRoles() {
@@ -34,12 +34,6 @@ public class User {
         this.password = password;
     }
 
-    public String getDisplayname() {
-        return displayname;
-    }
-
-    public void setDisplayname(String displayname) {
-        this.displayname = displayname;
-    }
+ 
     
 }

@@ -3,46 +3,44 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controller.plan;
+package controller.employee;
 
 import controller.authentication.BaseRBACController;
-import dal.ProductionPlanDBContext;
+import dal.EmployeeDBContext;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import model.Employee;
 import model.auth.User;
 
 /**
  *
  * @author Golden  Lightning
  */
-public class ProductionPlanDeleteController extends BaseRBACController {
-
+public class EmployeeViewListController extends BaseRBACController {
+   
+   
+    
     @Override
     protected void doAuthorizedGet(HttpServletRequest request, HttpServletResponse response, User account) throws ServletException, IOException {
-        doAuthorizedPost(request, response, account);
+        EmployeeDBContext db = new EmployeeDBContext();
+        String workshopIdParam = request.getParameter("workshopId");
+        int workshopId = Integer.parseInt(workshopIdParam);
+        
+        ArrayList<Employee> employees = db.listByDepartment(workshopId);
+        request.setAttribute("employees", employees);
+        request.getRequestDispatcher("/view/employee/view-available.jsp").forward(request, response);
     }
     
-    
-   
     @Override
-protected void doAuthorizedPost(HttpServletRequest request, HttpServletResponse response, User account) 
+    protected void doAuthorizedPost(HttpServletRequest request, HttpServletResponse response, User account) 
             throws ServletException, IOException {
-    String planIdStr = request.getParameter("plid");
-    if (planIdStr != null) {
-        int planId = Integer.parseInt(planIdStr);
-        ProductionPlanDBContext dbContext = new ProductionPlanDBContext();
-        dbContext.hidePlan(planId);
+        
     }
-    response.sendRedirect("list");
-}
 
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
+   
 }

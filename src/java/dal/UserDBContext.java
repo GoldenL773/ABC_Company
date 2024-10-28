@@ -3,6 +3,8 @@ package dal;
 import java.util.ArrayList;
 import model.auth.User;
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.auth.Feature;
@@ -25,24 +27,27 @@ public class UserDBContext extends DBContext<User> {
             stm.setString(1, username);
             ResultSet rs = stm.executeQuery();
 
-            Role crole = new Role();
-            crole.setId(-1); // Initialize with a value that won't match any rid
+            // Use a Map to avoid creating duplicate Roles
+            Map<Integer, Role> roleMap = new HashMap<>();
             while (rs.next()) {
                 int rid = rs.getInt("rid");
-                // Create a new Role if the rid changes (new role)
-                if (rid != crole.getId()) {
-                    crole = new Role();
-                    crole.setId(rid);
-                    crole.setName(rs.getString("rname"));
-                    roles.add(crole);
+
+                // If the role doesn't exist in the map, create it
+                Role role = roleMap.get(rid);
+                if (role == null) {
+                    role = new Role();
+                    role.setId(rid);
+                    role.setName(rs.getString("rname"));
+                    roleMap.put(rid, role);
+                    roles.add(role);
                 }
 
-                // Add the Feature to the current Role
-                Feature f = new Feature();
-                f.setId(rs.getInt("fid"));
-                f.setName(rs.getString("fname"));
-                f.setUrl(rs.getString("url"));
-                crole.getFeatures().add(f);
+                // Add the feature to the existing Role
+                Feature feature = new Feature();
+                feature.setId(rs.getInt("fid"));
+                feature.setName(rs.getString("fname"));
+                feature.setUrl(rs.getString("url"));
+                role.getFeatures().add(feature);
             }
         } catch (SQLException ex) {
             Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
@@ -65,7 +70,8 @@ public class UserDBContext extends DBContext<User> {
         User user = null;
         PreparedStatement stm = null;
         try {
-            String sql = "SELECT [username],[password] FROM [Users]\n"
+            // Simple query to match username and password (in plaintext)
+            String sql = "SELECT [username], [password] FROM [Users]\n"
                     + "WHERE [username] = ? AND [password] = ?";
             stm = connection.prepareStatement(sql);
             stm.setString(1, username);
@@ -74,14 +80,18 @@ public class UserDBContext extends DBContext<User> {
             if (rs.next()) {
                 user = new User();
                 user.setUsername(username);
+                // You can add any other user details here if needed
             }
-
         } catch (SQLException ex) {
             Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                stm.close();
-                connection.close();
+                if (stm != null) {
+                    stm.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException ex) {
                 Logger.getLogger(UserDBContext.class.getName()).log(Level.SEVERE, null, ex);
             }

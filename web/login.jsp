@@ -1,7 +1,7 @@
 <%-- 
     Document   : login
     Created on : Oct 25, 2024, 11:44:31 PM
-    Author     : Golden  Lightning
+    Author     : Golden Lightning
 --%>
 
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
@@ -38,6 +38,9 @@
             border-radius: 5px;
             cursor: pointer;
         }
+        .login-form input[type="submit"]:hover {
+            background-color: #45a049;
+        }
         .error-message {
             color: red;
             text-align: center;
@@ -49,14 +52,16 @@
     <div class="login-form">
         <h2>Login</h2>
         <form action="login" method="post">
-            <div class="error-message">${errorMessage}</div>
+            <c:if test="${not empty errorMessage}">
+                <div class="error-message">${errorMessage}</div>
+            </c:if>
             <label for="username">Username:</label>
             <input type="text" id="username" name="username" required>
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
             <input type="submit" value="Login">
+            
         </form>
     </div>
 </body>
 </html>
-

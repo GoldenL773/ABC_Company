@@ -1,5 +1,6 @@
 package controller.plan;
 
+import controller.authentication.BaseRBACController;
 import dal.ProductDBContext;
 import dal.ProductionPlanDBContext;
 import dal.ProductionPlanDetailDBContext;
@@ -19,23 +20,24 @@ import model.PlanDetail;
 import model.Product;
 import model.ProductionPlan;
 import model.ProductionPlanHeader;
+import model.auth.User;
 
-public class ProductionPlanCreateDetailsController extends HttpServlet {
+public class ProductionPlanCreateDetailsController extends BaseRBACController {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int plid = Integer.parseInt(req.getParameter("plid"));
+    protected void doAuthorizedGet(HttpServletRequest request, HttpServletResponse response, User account) throws ServletException, IOException {
+        int plid = Integer.parseInt(request.getParameter("plid"));
         ProductionPlanDBContext pldb = new ProductionPlanDBContext();
         ProductDBContext dbProduct = new ProductDBContext();
 
         ProductionPlan plan = pldb.get(plid);
-        req.setAttribute("plan", plan);
-        req.setAttribute("products", dbProduct.list());
+        request.setAttribute("plan", plan);
+        request.setAttribute("products", dbProduct.list());
 
         List<LocalDate> dates = getDateRange(plan.getStart(), plan.getEnd());
-        req.setAttribute("dateRange", dates);
+        request.setAttribute("dateRange", dates);
 
-        req.getRequestDispatcher("../view/productionplan/createdetails.jsp").forward(req, resp);
+        request.getRequestDispatcher("../view/productionplan/createdetails.jsp").forward(request, response);
     }
 
     public List<LocalDate> getDateRange(Date startDate, Date endDate) {
@@ -55,7 +57,7 @@ public class ProductionPlanCreateDetailsController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doAuthorizedPost(HttpServletRequest request, HttpServletResponse response, User account) 
             throws ServletException, IOException {
         int planId = Integer.parseInt(request.getParameter("plid"));
 
