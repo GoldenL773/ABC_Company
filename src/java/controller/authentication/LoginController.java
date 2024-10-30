@@ -27,11 +27,8 @@ public class LoginController extends HttpServlet {
         if (user != null) {
             // Load the roles and features into the user object
             user.setRoles(userDB.getRoles(user.getUsername()));
-
             // Set the user into the session
             req.getSession().setAttribute("account", user);
-
-            // Redirect to the dashboard (or any other authorized page)
             resp.sendRedirect("dashboard");
         } else {
             req.setAttribute("errorMessage", "Invalid username or password!");

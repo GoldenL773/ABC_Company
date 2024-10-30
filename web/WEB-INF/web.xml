@@ -22,7 +22,7 @@
     </servlet>
     <servlet>
         <servlet-name>DashboardController</servlet-name>
-        <servlet-class>controller.dashboard.DashboardController</servlet-class>
+        <servlet-class>controller.home.DashboardController</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginController</servlet-name>
@@ -63,6 +63,14 @@
     <servlet>
         <servlet-name>LogoutController</servlet-name>
         <servlet-class>controller.authentication.LogoutController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AttendanceManagementController</servlet-name>
+        <servlet-class>controller.attendance.AttendanceManagementController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AttendanceDetailsServlet</servlet-name>
+        <servlet-class>controller.attendance.AttendanceDetailsServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>ProductionPlanCreateController</servlet-name>
@@ -127,6 +135,14 @@
     <servlet-mapping>
         <servlet-name>LogoutController</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AttendanceManagementController</servlet-name>
+        <url-pattern>/attendance-management</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AttendanceDetailsServlet</servlet-name>
+        <url-pattern>/attendance-management/details</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>25</session-timeout>

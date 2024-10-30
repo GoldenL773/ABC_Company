@@ -1,31 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package model;
 
-/**
- *
- * @author Golden Lightning
- */
 public class WorkAssignment {
-
     private int id; // Assignment ID
     private int detailId; // Corresponds to the PlanDetail ID (pdid)
-    private int employeeId; // Employee ID (eid)
-    private int quantity; // Assigned quantity
+    private int quantity; // Assigned quantity (Ordered Quantity)
     private String note; // Note for assignment
-    private Employee employee;
+    private int employeeId;
 
-    public Employee getEmployee() {
-        return employee;
+    public int getEmployeeId() {
+        return employeeId;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setEmployeeId(int employeeId) {
+        this.employeeId = employeeId;
     }
 
-    // Getters and Setters
+    private Employee employee; // Employee associated with the assignment
+    private Product product; // Product associated with the assignment
+
+    // Getters and Setters for fields
     public int getId() {
         return id;
     }
@@ -42,14 +35,6 @@ public class WorkAssignment {
         this.detailId = detailId;
     }
 
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
-
     public int getQuantity() {
         return quantity;
     }
@@ -64,5 +49,35 @@ public class WorkAssignment {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    // Getters and Setters for Employee object
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    // Getters and Setters for Product object
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    @Override
+    public String toString() {
+        return "WorkAssignment{" +
+                "id=" + id +
+                ", detailId=" + detailId +
+                ", quantity=" + quantity +
+                ", note='" + note + '\'' +
+                ", employee=" + (employee != null ? employee.toString() : "null") +
+                ", product=" + (product != null ? product.toString() : "null") +
+                '}';
     }
 }

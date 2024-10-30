@@ -7,7 +7,7 @@
         <title>Production Plan Details</title>
     </head>
     <body>
-        <h1${plan.name}h1>
+        <h1>${plan.name}</h1>
         <p><strong>Plan ID:</strong> ${plan.id}</p>
         <p><strong>Workshop:</strong> ${plan.dept.name}</p>
         <p><strong>Workshop Manager:</strong> ${plan.dept.id}</p>

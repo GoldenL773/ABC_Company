@@ -1,4 +1,4 @@
-package controller.dashboard;
+package controller.home;
 
 import controller.authentication.BaseRBACController;
 import controller.authentication.BaseRequiredAuthenticationController;
