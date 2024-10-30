@@ -13,6 +13,40 @@ import model.WorkAssignment;
 
 public class AttendanceDBContext extends DBContext<Attendance> {
 
+    public void upsertAttendance(int waid, int actualQuantity, float alpha, String note) {
+        String checkSql = "SELECT atid FROM Attendances WHERE waid = ?";
+        String insertSql = "INSERT INTO Attendances (waid, actualquantity, alpha, note) VALUES (?, ?, ?, ?)";
+        String updateSql = "UPDATE Attendances SET actualquantity = ?, alpha = ?, note = ? WHERE atid = ?";
+
+        try (PreparedStatement checkStmt = connection.prepareStatement(checkSql)) {
+            checkStmt.setInt(1, waid);
+            ResultSet rs = checkStmt.executeQuery();
+
+            if (rs.next()) {
+                // Attendance record exists, update it
+                int atid = rs.getInt("atid");
+                try (PreparedStatement updateStmt = connection.prepareStatement(updateSql)) {
+                    updateStmt.setInt(1, actualQuantity);
+                    updateStmt.setFloat(2, alpha);
+                    updateStmt.setString(3, note);
+                    updateStmt.setInt(4, atid);
+                    updateStmt.executeUpdate();
+                }
+            } else {
+                // No attendance record exists, insert a new one
+                try (PreparedStatement insertStmt = connection.prepareStatement(insertSql)) {
+                    insertStmt.setInt(1, waid);
+                    insertStmt.setInt(2, actualQuantity);
+                    insertStmt.setFloat(3, alpha);
+                    insertStmt.setString(4, note);
+                    insertStmt.executeUpdate();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Ideally log this
+        }
+    }
+
     public List<Attendance> getAttendanceByDateAndDepartment(Date date, int departmentId) {
         List<Attendance> attendances = new ArrayList<>();
         String sql = "SELECT \n"

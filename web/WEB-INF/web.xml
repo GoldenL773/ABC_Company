@@ -72,6 +72,10 @@
         <servlet-name>AttendanceDetailsServlet</servlet-name>
         <servlet-class>controller.attendance.AttendanceDetailsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AttendanceUpdateServlet</servlet-name>
+        <servlet-class>controller.attendance.AttendanceUpdateServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ProductionPlanCreateController</servlet-name>
         <url-pattern>/productionplan/create</url-pattern>
@@ -143,6 +147,10 @@
     <servlet-mapping>
         <servlet-name>AttendanceDetailsServlet</servlet-name>
         <url-pattern>/attendance-management/details</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AttendanceUpdateServlet</servlet-name>
+        <url-pattern>/attendance-management/update</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>25</session-timeout>

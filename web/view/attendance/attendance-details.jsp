@@ -50,7 +50,7 @@
 
         <!-- Back to Dashboard Button -->
         <div class="button-container">
-            <button onclick="window.location.href = '/dashboard'">Back to Dashboard</button>
+            <button onclick="window.location.href = '../attendance-management'">Back to Dashboard</button>
         </div>
 
         <!-- Filter Selection Form -->
@@ -75,7 +75,8 @@
         <button id="cancelBtn" onclick="cancelEdit()" style="display: none;">Cancel</button>
 
         <!-- Attendance Table -->
-        <form id="attendanceForm" action="/attendance-management/update" method="post">
+        <!-- Attendance Table -->
+        <form id="attendanceForm" action="update" method="post">
             <input type="hidden" name="date" value="${date}">
             <input type="hidden" name="department" value="${department.id}">
 
@@ -95,30 +96,30 @@
                 <tbody>
                     <c:forEach var="attendance" items="${attendances}">
                         <tr>
-                            <!-- Display Employee and Product Details from WorkAssignment -->
-                            <td>${attendance.workAssignment.employee.id}</td>
-                            <td>${attendance.workAssignment.employee.name}</td>
-                            <td>${attendance.workAssignment.product.id}</td>
-                            <td>${attendance.workAssignment.product.name}</td>
-                            <td>${attendance.workAssignment.quantity}</td>
+                            <!-- Hidden WorkAssignment ID per attendance -->
+                    <input type="hidden" name="waid_${attendance.workAssignment.id}" value="${attendance.workAssignment.id}">
 
-                            <!-- Editable fields for Attendance data: Actual Quantity, Alpha, and Note -->
-                            <td>
-                                <span class="view-mode">${attendance.actualQuantity != null ? attendance.actualQuantity : "0"}</span>
-                                <input type="number" name="actualQuantity_${attendance.atid}" value="${attendance.actualQuantity != null ? attendance.actualQuantity : "0"}" class="edit-mode">
-                            </td>
-                            <td>
-                                <span class="view-mode">${attendance.alpha != null ? attendance.alpha : "0"}</span>
-                                <input type="number" step="0.1" name="alpha_${attendance.atid}" value="${attendance.alpha != null ? attendance.alpha : "0"}" class="edit-mode">
-                            </td>
-                            <td>
-                                <span class="view-mode">${attendance.note != null ? attendance.note : ""}</span>
-                                <input type="text" name="note_${attendance.atid}" value="${attendance.note != null ? attendance.note : ""}" class="edit-mode">
-                            </td>
-                        </tr>
-                    </c:forEach>
+                    <td>${attendance.workAssignment.employee.id}</td>
+                    <td>${attendance.workAssignment.employee.name}</td>
+                    <td>${attendance.workAssignment.product.id}</td>
+                    <td>${attendance.workAssignment.product.name}</td>
+                    <td>${attendance.workAssignment.quantity}</td>
 
-
+                    <!-- Editable fields for Attendance data: Actual Quantity, Alpha, and Note -->
+                    <td>
+                        <span class="view-mode">${attendance.actualQuantity != null ? attendance.actualQuantity : "0"}</span>
+                        <input type="number" name="actualQuantity_${attendance.workAssignment.id}" value="${attendance.actualQuantity != null ? attendance.actualQuantity : "0"}" class="edit-mode">
+                    </td>
+                    <td>
+                        <span class="view-mode">${attendance.alpha != null ? attendance.alpha : "0"}</span>
+                        <input type="number" step="0.1" name="alpha_${attendance.workAssignment.id}" value="${attendance.alpha != null ? attendance.alpha : "0"}" class="edit-mode">
+                    </td>
+                    <td>
+                        <span class="view-mode">${attendance.note != null ? attendance.note : ""}</span>
+                        <input type="text" name="note_${attendance.workAssignment.id}" value="${attendance.note != null ? attendance.note : ""}" class="edit-mode">
+                    </td>
+                    </tr>
+                </c:forEach>
                 </tbody>
             </table>
         </form>
