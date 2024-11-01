@@ -13,6 +13,7 @@
         </group>
         <group name="PRJ301">
             <file>file:/D:/GitHub/ABC_Company/web/view/employee/employee-add.jsp</file>
+            <file>file:/D:/GitHub/ABC_Company/web/view/master/layout.jsp</file>
             <file>file:/D:/GitHub/ABC_Company/src/java/dal/AttendanceDBContext.java</file>
             <file>file:/D:/GitHub/ABC_Company/web/view/assignment/assignment-employee.jsp</file>
             <file>file:/D:/GitHub/ABC_Company/src/java/dal/ProductionPlanDetailDBContext.java</file>
@@ -28,7 +29,9 @@
             <file>file:/D:/GitHub/ABC_Company/src/java/controller/plan/ProductionDisplaylListPlansController.java</file>
             <file>file:/D:/GitHub/ABC_Company/src/java/controller/assignment/AssignmentDetailsController.java</file>
             <file>file:/D:/GitHub/ABC_Company/src/java/dal/ProductDBContext.java</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/controller/attendance/AttendanceUpdateServlet.java</file>
             <file>file:/D:/GitHub/ABC_Company/src/java/model/WorkAssignment.java</file>
+            <file>file:/D:/GitHub/ABC_Company/web/view/master/sidebar.jsp</file>
             <file>file:/D:/GitHub/ABC_Company/src/java/dal/UserDBContext.java</file>
             <file>file:/D:/GitHub/ABC_Company/src/java/controller/attendance/AttendanceManagementController.java</file>
             <file>file:/D:/GitHub/ABC_Company/src/java/dal/DepartmentDBContext.java</file>
@@ -38,6 +41,8 @@
             <file>file:/D:/GitHub/ABC_Company/src/java/dal/EmployeeDBContext.java</file>
             <file>file:/D:/GitHub/ABC_Company/src/java/controller/assignment/AssignmentDashboardServlet.java</file>
             <file>file:/D:/GitHub/ABC_Company/web/view/productionplan/createdetails.jsp</file>
+            <file>file:/D:/GitHub/ABC_Company/web/view/report/salary-report.jsp</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/model/MonthlyWageRecord.java</file>
             <file>file:/D:/GitHub/ABC_Company/src/java/dal/WorkAssignmentDBContext.java</file>
             <file>file:/D:/GitHub/ABC_Company/web/view/productionplan/create.jsp</file>
             <file>file:/D:/GitHub/ABC_Company/src/java/controller/authentication/BaseRBACController.java</file>
@@ -45,8 +50,10 @@
             <file>file:/D:/GitHub/ABC_Company/src/java/model/Salary.java</file>
             <file>file:/D:/GitHub/ABC_Company/web/view/attendance/attendance-dashboard.jsp</file>
             <file>file:/D:/GitHub/ABC_Company/src/java/controller/employee/EmployeeAddController.java</file>
+            <file>file:/D:/GitHub/ABC_Company/src/java/controller/report/SalaryReportController.java</file>
             <file>file:/D:/GitHub/ABC_Company/web/view/employee/employee-details.jsp</file>
             <file>file:/D:/GitHub/ABC_Company/web/login.jsp</file>
+            <file>file:/D:/GitHub/ABC_Company/web/dashboard.jsp</file>
             <file>file:/D:/GitHub/ABC_Company/src/java/model/Department.java</file>
             <file>file:/D:/GitHub/ABC_Company/web/view/attendance/attendance-details.jsp</file>
         </group>

@@ -28,48 +28,29 @@ public class AttendanceUpdateServlet extends BaseRBACController {
 
         Enumeration<String> parameterNames = request.getParameterNames();
 
-        // Process each attendance entry based on parameter names in the request
         while (parameterNames.hasMoreElements()) {
             String paramName = parameterNames.nextElement();
 
-            // Look for parameters starting with "actualQuantity_", which indicate attendance data entries
             if (paramName.startsWith("actualQuantity_")) {
-                try {
-                    // Extract the id from parameter name, e.g., "actualQuantity_1" -> tmpid = 1
-                    int tmpid = Integer.parseInt(paramName.split("_")[1]);
-                    
-                    // Retrieve the corresponding WorkAssignment ID (waid) from the hidden input
-                    int waid = Integer.parseInt(request.getParameter("waid_" + tmpid));
-                    
-                    // Retrieve other attendance details for this atid
-                    int actualQuantity = Integer.parseInt(request.getParameter("actualQuantity_" + tmpid));
-                    float alpha = Float.parseFloat(request.getParameter("alpha_" + tmpid));
-                    String note = request.getParameter("note_" + tmpid);
+                int waid = Integer.parseInt(paramName.split("_")[1]);
 
-                    // Upsert the attendance data
-                    attendanceDB.upsertAttendance(waid, actualQuantity, alpha, note);
+                int actualQuantity = Integer.parseInt(request.getParameter("actualQuantity_" + waid));
+                float alpha = Float.parseFloat(request.getParameter("alpha_" + waid));
+                String note = request.getParameter("note_" + waid);
 
-                } catch (NumberFormatException e) {
-                    // Handle invalid number formats
-                    e.printStackTrace();
-                }
+                attendanceDB.upsertAttendance(waid, actualQuantity, alpha, note);
             }
         }
 
-        // Redirect back to the attendance details page or display a success message
         String redirectDate = request.getParameter("date");
         String redirectDepartment = request.getParameter("department");
 
         response.sendRedirect(request.getContextPath() + "/attendance-management/details?date=" + redirectDate + "&department=" + redirectDepartment);
-    
     }
 
-
-@Override
-protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException {
+    @Override
+    protected void doAuthorizedGet(HttpServletRequest req, HttpServletResponse resp, User account) throws ServletException, IOException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-   
-    
 
 }

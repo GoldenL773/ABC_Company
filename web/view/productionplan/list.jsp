@@ -52,6 +52,7 @@
         </script>
     </head>
     <body>
+        <%--<%@ include file="/view/master/sidebar.jsp" %>--%>
         <h1>Production Plans</h1>
 
         <!-- Display success message if exists -->

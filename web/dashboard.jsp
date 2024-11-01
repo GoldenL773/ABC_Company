@@ -1,80 +1,124 @@
-<%-- 
-    Document   : dashboard.jsp
-    Created on : Oct 25, 2024, 11:45:34 PM
-    Author     : Golden  Lightning
---%>
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Dashboard</title>
-        <link rel="stylesheet" href="styles.css">
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                margin: 0;
-                padding: 0;
-            }
-            .container {
-                width: 80%;
-                margin: auto;
-                overflow: hidden;
-            }
-            header {
-                background: #333;
-                color: #fff;
-                padding: 20px 0;
-                text-align: center;
-            }
-            nav {
-                display: flex;
-                justify-content: space-around;
-                background: #444;
-                padding: 10px;
-            }
-            nav a {
-                color: #fff;
-                text-decoration: none;
-                padding: 5px 10px;
-            }
-            nav a:hover {
-                background: #555;
-            }
-            .welcome {
-                margin: 20px 0;
-                background: #fff;
-                padding: 20px;
-                border-radius: 5px;
-                box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            }
-            .features {
-                margin-top: 20px;
-            }
-            .features h3 {
-                margin-bottom: 10px;
-            }
-            .feature-links {
-                list-style-type: none;
-                padding: 0;
-            }
-            .feature-links li {
-                margin: 5px 0;
-            }
-            .feature-links a {
-                color: #007bff;
-                text-decoration: none;
-            }
-            .feature-links a:hover {
-                text-decoration: underline;
-            }
-        </style>
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: #333;
+            color: #fff;
+            padding-top: 20px;
+            position: fixed;
+            height: 100%;
+        }
+        
+        .sidebar h2 {
+            text-align: center;
+            color: #fff;
+        }
+        
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .sidebar ul li {
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .sidebar ul li a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .sidebar ul li a:hover {
+            background-color: #575757;
+        }
+        
+        .content {
+            margin-left: 260px; /* Ensure the content is offset by the sidebar width */
+            padding: 20px;
+            width: calc(100% - 260px); /* Adjust content width to avoid overflow */
+        }
+        
+        header {
+            background: #444;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background: #555;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+        }
+        
+        nav a:hover {
+            background: #666;
+        }
+        
+        .welcome {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .features {
+            margin-top: 20px;
+        }
+        
+        .features h3 {
+            margin-bottom: 10px;
+        }
+        
+        .feature-links {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .feature-links li {
+            margin: 5px 0;
+        }
+        
+        .feature-links a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .feature-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <%@ include file="view/master/sidebar.jsp" %>
+
+    <div class="content">
         <header>
             <h1>Welcome to Your Dashboard</h1>
         </header>
@@ -83,9 +127,6 @@
             <a href="profile">Profile</a>
             <a href="logout">Logout</a>
         </nav>
-      <jsp:include page="view/master/sidebar.jsp" />
-
-
 
         <div class="container">
             <div class="welcome">
@@ -98,11 +139,11 @@
                     <c:forEach var="role" items="${sessionScope.account.roles}">
                         <c:forEach var="feature" items="${role.features}">
                             <li><a href="${feature.url}">${feature.name}</a></li>
-                            </c:forEach>
                         </c:forEach>
+                    </c:forEach>
                 </ul>
             </div>
         </div>
-    </body>
+    </div>
+</body>
 </html>
-

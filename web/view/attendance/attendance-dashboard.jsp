@@ -58,12 +58,12 @@
 
         <label for="year">Year:</label>
         <select id="year" name="year">
-            <c:forEach var="y" begin="2022" end="2025">
+            <c:forEach var="y" begin="2022" end="2030">
                 <option value="${y}" ${selectedYear == y ? "selected" : ""}>${y}</option>
             </c:forEach>
         </select>
 
-        <button type="submit">Filter</button>
+        <button type="submit">Select</button>
     </form>
 
     <!-- Calendar table -->

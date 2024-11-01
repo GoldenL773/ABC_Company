@@ -19,22 +19,34 @@ public class EmployeeDBContext extends DBContext<Employee> {
 
     public List<Employee> getAvailableEmployees(Date date, int sid, int departmentId) {
         List<Employee> employees = new ArrayList<>();
-        String sql = "WITH t AS (\n"
-                + "    SELECT wa.eid\n"
-                + "    FROM WorkAssignments wa\n"
-                + "    JOIN PlanDetails pd ON wa.pdid = pd.pdid\n"
-                + "    WHERE pd.date = ?\n"
-                + "    AND pd.sid = ?\n"
-                + ")\n"
-                + "SELECT e.eid, e.ename, e.phonenumber, e.address, e.dob, e.sid\n"
-                + "FROM Employees e\n"
-                + "WHERE e.did = ? AND\n"
-                + "e.eid NOT IN (SELECT eid FROM t);";
+        String sql = "WITH c AS ( \n"
+                + "    SELECT e.eid, e.ename, COALESCE(COUNT(s.sid), 0) AS shift_count \n"
+                + "    FROM Employees e \n"
+                + "    LEFT JOIN WorkAssignments w ON e.eid = w.eid \n"
+                + "    LEFT JOIN PlanDetails pd ON w.pdid = pd.pdid AND pd.date = ? \n"
+                + "    LEFT JOIN Shifts s ON s.sid = pd.sid \n"
+                + "    WHERE e.did = ? \n"
+                + "    GROUP BY e.eid, e.ename \n"
+                + "    HAVING COUNT(s.sid) < 2 \n"
+                + "), t AS ( \n"
+                + "    SELECT wa.eid \n"
+                + "    FROM WorkAssignments wa \n"
+                + "    JOIN PlanDetails pd ON wa.pdid = pd.pdid \n"
+                + "    WHERE pd.date = ? \n"
+                + "      AND pd.sid = ? \n"
+                + ") \n"
+                + "SELECT e.eid, e.ename, e.phonenumber, e.address, e.dob, e.sid \n"
+                + "FROM Employees e \n"
+                + "WHERE e.did = ? \n"
+                + "  AND e.eid NOT IN (SELECT eid FROM t) \n"
+                + "  AND e.eid IN (SELECT eid FROM c);";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setDate(1, date);
-            ps.setInt(2, sid);
-            ps.setInt(3, departmentId);
+            ps.setDate(1, date);              // For CTE c
+            ps.setInt(2, departmentId);       // For CTE c
+            ps.setDate(3, date);              // For CTE t
+            ps.setInt(4, sid);                // For CTE t
+            ps.setInt(5, departmentId);       // For final selection
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

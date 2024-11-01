@@ -3,15 +3,65 @@ package dal;
 import model.Attendance;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.Attendance;
 import model.Employee;
+import model.MonthlyWageRecord;
 import model.Product;
 import model.WorkAssignment;
 
 public class AttendanceDBContext extends DBContext<Attendance> {
+
+    public List<MonthlyWageRecord> getMonthlyAttendanceByDepartment(int departmentId, int month, int year) {
+        List<MonthlyWageRecord> monthlyWages = new ArrayList<>();
+        String sql = """
+        SELECT 
+            e.eid AS employeeId, 
+            e.ename AS employeeName,
+            s.salary AS hourlyRate,
+            pd.date AS attendanceDate,
+            a.alpha AS alphaFactor,
+            (s.salary * 8 * a.alpha) AS dailyWage
+        FROM Employees e
+        JOIN Salaries s ON e.sid = s.sid
+        JOIN WorkAssignments wa ON e.eid = wa.eid
+        JOIN Attendances a ON a.waid = wa.waid
+        JOIN PlanDetails pd ON pd.pdid = wa.pdid
+        WHERE e.did = ? 
+          AND MONTH(pd.date) = ? 
+          AND YEAR(pd.date) = ?
+        ORDER BY e.eid, pd.date;
+    """;
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, departmentId);
+            ps.setInt(2, month);
+            ps.setInt(3, year);
+
+            ResultSet rs = ps.executeQuery();
+            Map<Integer, MonthlyWageRecord> recordsMap = new HashMap<>();
+
+            while (rs.next()) {
+                int employeeId = rs.getInt("employeeId");
+                MonthlyWageRecord record = recordsMap.getOrDefault(employeeId, new MonthlyWageRecord(employeeId, rs.getString("employeeName"), rs.getFloat("hourlyRate")));
+
+                Date date = rs.getDate("attendanceDate");
+                float alphaFactor = rs.getFloat("alphaFactor");
+                record.addDailyEffort(date, alphaFactor);
+
+                recordsMap.put(employeeId, record);
+            }
+
+            monthlyWages.addAll(recordsMap.values());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return monthlyWages;
+    }
 
     public void upsertAttendance(int waid, int actualQuantity, float alpha, String note) {
         String checkSql = "SELECT atid FROM Attendances WHERE waid = ?";
@@ -49,25 +99,22 @@ public class AttendanceDBContext extends DBContext<Attendance> {
 
     public List<Attendance> getAttendanceByDateAndDepartment(Date date, int departmentId) {
         List<Attendance> attendances = new ArrayList<>();
-        String sql = "SELECT \n"
-                + "    wa.waid AS workAssignmentId,\n"
-                + "    wa.pdid AS planDetailId,\n"
-                + "    wa.quantity AS orderedQuantity,\n"
-                + "    wa.note AS workAssignmentNote,\n"
-                + "    e.eid AS employeeId,\n"
-                + "    e.ename AS employeeName,\n"
-                + "    p.pid AS productId,\n"
-                + "    p.pname AS productName,\n"
-                + "    a.atid AS attendanceId,\n"
-                + "    a.actualquantity AS actualQuantity,\n"
-                + "    a.alpha AS alpha,\n"
-                + "    a.note AS attendanceNote\n"
-                + "FROM WorkAssignments wa\n"
-                + "LEFT JOIN Employees e ON wa.eid = e.eid\n"
-                + "LEFT JOIN PlanDetails pd ON wa.pdid = pd.pdid\n"
-                + "LEFT JOIN PlanHeaders ph ON pd.phid = ph.phid\n"
-                + "LEFT JOIN Products p ON ph.pid = p.pid\n"
-                + "LEFT JOIN Attendances a ON a.waid = wa.waid\n"
+        String sql = "SELECT "
+                + "    wa.waid AS workAssignmentId, "
+                + "    wa.quantity AS orderedQuantity, "
+                + "    e.eid AS employeeId, "
+                + "    e.ename AS employeeName, "
+                + "    p.pid AS productId, "
+                + "    p.pname AS productName, "
+                + "    a.actualquantity AS actualQuantity, "
+                + "    a.alpha AS alpha, "
+                + "    a.note AS attendanceNote "
+                + "FROM WorkAssignments wa "
+                + "LEFT JOIN Employees e ON wa.eid = e.eid "
+                + "LEFT JOIN PlanDetails pd ON wa.pdid = pd.pdid "
+                + "LEFT JOIN PlanHeaders ph ON pd.phid = ph.phid "
+                + "LEFT JOIN Products p ON ph.pid = p.pid "
+                + "LEFT JOIN Attendances a ON a.waid = wa.waid "
                 + "WHERE e.did = ? AND pd.date = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -77,39 +124,31 @@ public class AttendanceDBContext extends DBContext<Attendance> {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Attendance attendance = new Attendance();
-                attendance.setAtid(rs.getInt("attendanceId"));
+                attendance.setAtid(rs.getInt("workAssignmentId")); // Assign work assignment ID
                 attendance.setActualQuantity(rs.getInt("actualQuantity"));
                 attendance.setAlpha(rs.getFloat("alpha"));
                 attendance.setNote(rs.getString("attendanceNote"));
 
-                // Create and set WorkAssignment object
                 WorkAssignment assignment = new WorkAssignment();
                 assignment.setId(rs.getInt("workAssignmentId"));
-                assignment.setDetailId(rs.getInt("planDetailId"));
                 assignment.setQuantity(rs.getInt("orderedQuantity"));
-                assignment.setNote(rs.getString("workAssignmentNote"));
 
-                // Create and set Employee object within WorkAssignment
                 Employee employee = new Employee();
                 employee.setId(rs.getInt("employeeId"));
                 employee.setName(rs.getString("employeeName"));
                 assignment.setEmployee(employee);
 
-                // Create and set Product object within WorkAssignment
                 Product product = new Product();
                 product.setId(rs.getInt("productId"));
                 product.setName(rs.getString("productName"));
                 assignment.setProduct(product);
 
-                // Set WorkAssignment to Attendance
                 attendance.setWorkAssignment(assignment);
-
                 attendances.add(attendance);
             }
         } catch (SQLException e) {
-            e.printStackTrace();  // Consider logging instead of printing the stack trace
+            e.printStackTrace();
         }
-
         return attendances;
     }
 

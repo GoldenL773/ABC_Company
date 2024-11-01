@@ -1,11 +1,22 @@
 package model;
 
+import java.util.List;
+
 public class WorkAssignment {
     private int id; // Assignment ID
     private int detailId; // Corresponds to the PlanDetail ID (pdid)
     private int quantity; // Assigned quantity (Ordered Quantity)
     private String note; // Note for assignment
     private int employeeId;
+     private List<Product> productList;
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+    }
 
     public int getEmployeeId() {
         return employeeId;

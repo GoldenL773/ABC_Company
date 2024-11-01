@@ -1,28 +1,52 @@
-<%-- 
-    Document   : sidebar
-    Created on : Oct 28, 2024, 10:55:54 PM
-    Author     : Golden  Lightning
---%>
-
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<div class="sidebar" style="width: 250px; height: 100%; background-color: #f4f4f4; padding: 10px;">
-    <h3>Navigation</h3>
-
-                    <!-- Display different links based on the feature's URL -->
-                    
-                        <a href="" style="display: block; padding: 5px 0;">Dashboard</a>
-                    
-                        <a href="" style="display: block; padding: 5px 0;">Create Production Plan</a>
-                    
-                        <a href="" style="display: block; padding: 5px 0;">List Production Plans</a>
-                    
-                        <a href="" style="display: block; padding: 5px 0;">Employee Management</a>
-                    
-                        <a href="" style="display: block; padding: 5px 0;">Assignment Dashboard</a>
-                   
-                        <a href="" style="display: block; padding: 5px 0;">${feature.fname}</a>
-                 
-
+<!-- sidebar.jsp -->
+<div class="sidebar">
+    <h2>Navigation</h2>
+    <ul>
+        <li><a href="/ABC_Com/productionplan/list">Production Plan</a></li>
+        <li><a href="/ABC_Com/assignment">Assignment</a></li>
+        <li><a href="/ABC_Com/attendance-management">Attendance Management</a></li>
+        <li><a href="/ABC_Com/report">Report</a></li>
+        <!--<li><a href="/settings">Settings</a></li>-->
+    </ul>
 </div>
 
+<style>
+    /* Sidebar styles */
+    .sidebar {
+        width: 200px;
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        top: 0;
+        background-color: #333;
+        color: #fff;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+    .sidebar h2 {
+        color: #fff;
+        font-size: 18px;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+    .sidebar ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+    }
+    .sidebar ul li {
+        margin-bottom: 15px;
+    }
+    .sidebar ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 16px;
+        display: block;
+        padding: 5px;
+        border-radius: 3px;
+    }
+    .sidebar ul li a:hover {
+        background-color: #444;
+    }
+</style>
