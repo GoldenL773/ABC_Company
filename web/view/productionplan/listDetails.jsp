@@ -7,6 +7,8 @@
         <title>Production Plan Details</title>
     </head>
     <body>
+        <jsp:include page="/view/master/sidebar.jsp"/>
+        <div class="content">
         <h1>${plan.name}</h1>
         <p><strong>Plan ID:</strong> ${plan.id}</p>
         <p><strong>Workshop:</strong> ${plan.dept.name}</p>
@@ -50,5 +52,6 @@
                 </tr>
             </c:forEach>
         </table>
+        </div>
     </body>
 </html>

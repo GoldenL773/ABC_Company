@@ -45,6 +45,9 @@
         </style>
     </head>
     <body>
+        <jsp:include page="/view/master/sidebar.jsp"/>
+        <div class="content">
+       
         <h1>Attendance Management - Calendar View</h1>
 
         <!-- Dropdowns for selecting month and year -->
@@ -117,5 +120,6 @@
                 </tr>
             </tbody>
         </table>
+                </div>
     </body>
 </html>

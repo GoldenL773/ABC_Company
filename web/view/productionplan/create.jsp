@@ -28,6 +28,8 @@
         </script>
     </head>
     <body>
+        <jsp:include page="/view/master/sidebar.jsp"/>
+        <div class="content">
         <form name="planForm" action="create" method="POST" onsubmit="return validateForm();">
             Plan Name: <input type="text" required name="name"/> <br/>
             From: <input type="date" name="from"/> To: <input type="date" name="to"/> <br/>
@@ -53,5 +55,6 @@
             </table>
             <input type="submit" value="Save"/>
         </form>
+            </div>
     </body>
 </html>

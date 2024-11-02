@@ -18,6 +18,8 @@
     </style>
 </head>
 <body>
+    <jsp:include page="/view/master/sidebar.jsp"/>
+        <div class="content">
     <div class="container">
         <h2>Employee Management</h2>
         <c:if test="${empty employees}">
@@ -61,6 +63,6 @@
         <div class="actions">
             <button onclick="window.location.href='add-employee'">Add New Employee</button>
         </div>
-    </div>
+    </div></div>
 </body>
 </html>

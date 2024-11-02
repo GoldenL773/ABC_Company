@@ -10,6 +10,8 @@
     </style>
 </head>
 <body>
+    <jsp:include page="/view/master/sidebar.jsp"/>
+        <div class="content">
 <h1>Monthly Attendance Report - Department ${departmentId}</h1>
 
 <form action="report" method="get">
@@ -68,5 +70,6 @@
         <p>No records found.</p>
     </c:otherwise>
 </c:choose>
+        </div>
 </body>
 </html>

@@ -1,10 +1,10 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+ <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="styles.css">
     <style>
@@ -15,49 +15,15 @@
             padding: 0;
             display: flex;
         }
-        
-        .sidebar {
-            width: 250px;
-            background: #333;
-            color: #fff;
-            padding-top: 20px;
-            position: fixed;
-            height: 100%;
-        }
-        
-        .sidebar h2 {
-            text-align: center;
-            color: #fff;
-        }
-        
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        
-        .sidebar ul li {
-            padding: 10px;
-            text-align: center;
-        }
-        
-        .sidebar ul li a {
-            color: #fff;
-            text-decoration: none;
-            display: block;
-        }
-        
-        .sidebar ul li a:hover {
-            background-color: #575757;
-        }
-        
-        .content {
+
+        .container1 {
             margin-left: 260px; /* Ensure the content is offset by the sidebar width */
             padding: 20px;
             width: calc(100% - 260px); /* Adjust content width to avoid overflow */
         }
         
         header {
-            background: #444;
+            background: #333;
             color: #fff;
             padding: 20px 0;
             text-align: center;
@@ -115,10 +81,10 @@
         }
     </style>
 </head>
-<body>
-    <%@ include file="view/master/sidebar.jsp" %>
 
-    <div class="content">
+<body>
+    <jsp:include page="/view/master/sidebar.jsp"/>
+    <div class="container1">
         <header>
             <h1>Welcome to Your Dashboard</h1>
         </header>
@@ -132,7 +98,7 @@
                 <h2>Hello, ${displayName}!</h2>
                 <p>Welcome to your dashboard. Here, you can access various features available to you based on your roles.</p>
             </div>
-            <div class="features">
+<!--            <div class="features">
                 <h3>Your Accessible Features:</h3>
                 <ul class="feature-links">
                     <c:forEach var="role" items="${sessionScope.account.roles}">
@@ -141,7 +107,7 @@
                         </c:forEach>
                     </c:forEach>
                 </ul>
-            </div>
+            </div>-->
         </div>
     </div>
 </body>

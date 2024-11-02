@@ -29,6 +29,8 @@
     </script>
 </head>
 <body>
+    <jsp:include page="/view/master/sidebar.jsp"/>
+        <div class="content">
     <div class="container">
         <h2>Edit Employee</h2>
         <c:if test="${not empty message}">
@@ -60,6 +62,6 @@
                 <button type="button" onclick="window.location.href='/employee-manage'">Cancel</button>
             </div>
         </form>
-    </div>
+    </div></div>
 </body>
 </html>

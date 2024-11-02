@@ -14,6 +14,8 @@
         </script>
     </head>
     <body>
+        <jsp:include page="/view/master/sidebar.jsp"/>
+        <div class="content">
         <h1>Plan Details</h1>
         <form action="details" method="POST">
 
@@ -49,5 +51,6 @@
             </table>
             <input type="submit" value="Save Shift Quantities" onclick="confirmCreation()"/>
         </form>
+            </div>
     </body>
 </html>

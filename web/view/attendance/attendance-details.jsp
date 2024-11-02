@@ -46,6 +46,8 @@
         </script>
     </head>
     <body>
+        <jsp:include page="/view/master/sidebar.jsp"/>
+        <div class="content">
         <h1>Attendance Details for Department: ${department.name} on ${date}</h1>
 
         <!-- Back to Dashboard Button -->
@@ -156,6 +158,7 @@
         <div class="summary">
             <p>Total Employees: ${totalEmployees}</p>
             <p>Total Completed Output: ${totalCompletedOutput} products</p>
+        </div>
         </div>
     </body>
 </html>
