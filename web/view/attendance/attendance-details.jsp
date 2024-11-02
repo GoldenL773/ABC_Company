@@ -146,7 +146,6 @@
 
             <!-- Edit and Save Buttons -->
             <div class="button-container">
-                <button type="button" id="editBtn" onclick="toggleEditMode()">Edit</button>
                 <button type="submit" id="saveBtn" style="display: none;">Save</button>
                 <button type="button" id="cancelBtn" onclick="cancelEdit()" style="display: none;">Cancel</button>
             </div>

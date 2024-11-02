@@ -30,7 +30,7 @@
 
     <label for="year">Year:</label>
     <select name="year" id="year">
-        <c:forEach var="y" begin="2022" end="2025">
+        <c:forEach var="y" begin="2022" end="2030">
             <option value="${y}" ${y == year ? "selected" : ""}>${y}</option>
         </c:forEach>
     </select>

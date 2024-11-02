@@ -18,24 +18,23 @@ public class AttendanceDBContext extends DBContext<Attendance> {
 
     public List<MonthlyWageRecord> getMonthlyAttendanceByDepartment(int departmentId, int month, int year) {
         List<MonthlyWageRecord> monthlyWages = new ArrayList<>();
-        String sql = """
-        SELECT 
-            e.eid AS employeeId, 
-            e.ename AS employeeName,
-            s.salary AS hourlyRate,
-            pd.date AS attendanceDate,
-            a.alpha AS alphaFactor,
-            (s.salary * 8 * a.alpha) AS dailyWage
-        FROM Employees e
-        JOIN Salaries s ON e.sid = s.sid
-        JOIN WorkAssignments wa ON e.eid = wa.eid
-        JOIN Attendances a ON a.waid = wa.waid
-        JOIN PlanDetails pd ON pd.pdid = wa.pdid
-        WHERE e.did = ? 
-          AND MONTH(pd.date) = ? 
-          AND YEAR(pd.date) = ?
-        ORDER BY e.eid, pd.date;
-    """;
+        String sql = "SELECT \n"
+                + "        e.eid AS employeeId, \n"
+                + "        e.ename AS employeeName,\n"
+                + "        s.salary AS hourlyRate,\n"
+                + "        pd.date AS attendanceDate,\n"
+                + "        AVG(a.alpha) AS alphaFactor,\n"
+                + "        SUM(8 * s.salary * a.alpha) AS dailyWage\n"
+                + "    FROM Employees e\n"
+                + "    LEFT JOIN WorkAssignments w ON e.eid = w.eid\n"
+                + "    LEFT JOIN Attendances a ON w.waid = a.waid\n"
+                + "    LEFT JOIN PlanDetails pd ON w.pdid = pd.pdid\n"
+                + "    LEFT JOIN Salaries s ON e.sid = s.sid\n"
+                + "    WHERE e.did = ? \n"
+                + "      AND MONTH(pd.date) = ? \n"
+                + "      AND YEAR(pd.date) = ?\n"
+                + "    GROUP BY e.eid, e.ename, s.salary, pd.date\n"
+                + "    ORDER BY e.eid, pd.date;";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setInt(1, departmentId);

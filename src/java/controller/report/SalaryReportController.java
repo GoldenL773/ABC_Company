@@ -29,19 +29,28 @@ public class SalaryReportController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int departmentId = Integer.parseInt(request.getParameter("department"));
-        int month = Integer.parseInt(request.getParameter("month"));
-        int year = Integer.parseInt(request.getParameter("year"));
+        LocalDate currentDate = LocalDate.now();
+        int departmentId = 0;
+        int month = request.getParameter("month") != null ? Integer.parseInt(request.getParameter("month")) : currentDate.getMonthValue();
+        int year = request.getParameter("year") != null ? Integer.parseInt(request.getParameter("year")) : currentDate.getYear();
+        request.setAttribute("month", month);
+        request.setAttribute("year", year);        
+        
         DepartmentDBContext departmentDB = new DepartmentDBContext();
+        request.setAttribute("departments", departmentDB.get("Production"));
+
+        try {
+            departmentId = Integer.parseInt(request.getParameter("department"));
+        } catch (Exception e) {
+            request.getRequestDispatcher("/view/report/salary-report.jsp").forward(request, response);
+        }
+
         AttendanceDBContext attendanceDB = new AttendanceDBContext();
         List<MonthlyWageRecord> monthlyWages = attendanceDB.getMonthlyAttendanceByDepartment(departmentId, month, year);
 
-         request.setAttribute("departments", departmentDB.get("Production"));
         request.setAttribute("monthlyWages", monthlyWages);
         request.setAttribute("departmentId", departmentId);
-        request.setAttribute("month", month);
-        request.setAttribute("year", year);
-
+        
         request.getRequestDispatcher("/view/report/salary-report.jsp").forward(request, response);
     }
 

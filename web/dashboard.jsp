@@ -124,7 +124,6 @@
         </header>
         <nav>
             <a href="dashboard">Home</a>
-            <a href="profile">Profile</a>
             <a href="logout">Logout</a>
         </nav>
 
