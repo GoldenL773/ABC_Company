@@ -5,6 +5,72 @@
     <head>
         <title>Assign Employees to Plan Detail</title>
         <link rel="stylesheet" href="<c:url value='/styles/style.css' />">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                display: flex;
+                background-color: #f4f4f4;
+            }
+
+            .content {
+                margin-left: 250px; /* Align content with the sidebar */
+                padding: 20px;
+                width: calc(100% - 250px);
+                background-color: #fff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+            }
+
+            h2, h3 {
+                color: #333;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+            th, td {
+                padding: 10px;
+                text-align: left;
+                border: 1px solid #ddd;
+            }
+            th {
+                background-color: #f5f5f5;
+            }
+
+            label {
+                display: block;
+                margin-top: 10px;
+            }
+            input[type="text"], input[type="number"], select {
+                width: 100%;
+                padding: 8px;
+                margin-top: 5px;
+                margin-bottom: 15px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+            }
+            input[type="submit"] {
+                background-color: #333;
+                color: #fff;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            input[type="submit"]:hover {
+                background-color: #444;
+            }
+
+            p#message {
+                color: green;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+        </style>
         <script>
             // Function to automatically hide messages after 5 seconds
             setTimeout(function () {
@@ -22,7 +88,7 @@
 
             <!-- Display the success message if available -->
             <c:if test="${not empty message}">
-                <p id="message" style="color: green; text-align: center;">${message}</p>
+                <p id="message">${message}</p>
             </c:if>
 
             <div class="plan-detail-section">
@@ -56,7 +122,7 @@
 
             <div class="assigned-employees-section">
                 <h3>Assigned Employees for This Shift</h3>
-                <table border="1">
+                <table>
                     <thead>
                         <tr>
                             <th>Employee ID</th>

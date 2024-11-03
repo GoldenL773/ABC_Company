@@ -5,6 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Production Plans</title>
+        <link rel="stylesheet" href="<c:url value='/styles/style.css' />">
         <style>
             table {
                 width: 100%;
@@ -21,6 +22,10 @@
             .filter-section {
                 margin-bottom: 20px;
             }
+            a {
+            color: #007bff;
+            text-decoration: none;
+        }
             .message {
                 background-color: #d4edda;
                 color: #155724;
@@ -37,9 +42,27 @@
             .hidden {
                 opacity: 0;
             }
+            .content input[type="submit"], .content button {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                padding: 8px 16px;
+                margin: 5px 0;
+                cursor: pointer;
+                border-radius: 4px;
+                transition: background-color 0.3s;
+            }
+            .content input[type="submit"]:hover, .content button:hover {
+                background-color: #0056b3;
+            }
+            .content select {
+                padding: 6px;
+                border-radius: 4px;
+                border: 1px solid #ccc;
+                margin-right: 10px;
+            }
         </style>
         <script>
-
             // Function to hide the success message after 3 seconds
             window.onload = function () {
                 const messageDiv = document.getElementById('successMessage');
@@ -108,7 +131,6 @@
                     </a>
                 </form>
             </div>
-
 
             <!-- Display the list of plans in a table -->
             <table>
